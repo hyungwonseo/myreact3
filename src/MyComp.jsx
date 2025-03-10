@@ -38,15 +38,30 @@ export function MyComp() {
   console.log(array6); // [10,2,3]
   console.log(array7); // [1,2,3]
 
+  const numbers = [1, 2, 3];
+  const mapResult = numbers.map((num) => num * 2);
+  console.log(mapResult); // 2,4,6
+  const filterResult = numbers.filter((num) => num % 2 === 0);
+  console.log(filterResult); // 2
+  const users = [
+    { id: 1, name: "Kim" },
+    { id: 2, name: "Lee" },
+  ];
+  const findResult = users.find((user) => user.id === 2);
+  console.log(findResult);
+
   function method1(x) {
     console.log("method1함수의 출력 : " + x);
   }
+
+  const isLoggedIn = true;
 
   return (
     <>
       <p>나의 컴포넌트</p>
       <MyCompOnly />
       <div onClick={() => method1("1000")}>여기를 클릭하시오!</div>
+      {isLoggedIn ? <p>당신은 로그인상태입니다.</p> : <p>로그인해주세요.</p>}
     </>
   );
 }
