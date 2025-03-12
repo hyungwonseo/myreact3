@@ -54,7 +54,13 @@ export function MyComp() {
     console.log("method1함수의 출력 : " + x);
   }
 
-  const isLoggedIn = true;
+  const isLoggedIn = false;
+
+  const itemList = [
+    { id: 1, name: "사과", description: "맛있는 빨간 사과" },
+    { id: 2, name: "바나나", description: "맛있는 노란 바나나" },
+    { id: 3, name: "포도", description: "신선한 포도" },
+  ];
 
   return (
     <>
@@ -62,6 +68,13 @@ export function MyComp() {
       <MyCompOnly />
       <div onClick={() => method1("1000")}>여기를 클릭하시오!</div>
       {isLoggedIn ? <p>당신은 로그인상태입니다.</p> : <p>로그인해주세요.</p>}
+      {isLoggedIn && <p>true면 보여주세요.</p>}
+      <h2>과일목록</h2>
+      {itemList.map((item, i) => (
+        <p key={item.id}>
+          {item.name} : {item.description}
+        </p>
+      ))}
     </>
   );
 }
