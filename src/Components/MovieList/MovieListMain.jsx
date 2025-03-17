@@ -7,6 +7,7 @@ import MovieDetail from "./MovieDetail";
 import Search from "./Search";
 import MyPage from "./MyPage";
 import Login from "./Login";
+import Error from "./Error";
 import Navbar from "./Navbar";
 import styled from "styled-components";
 
