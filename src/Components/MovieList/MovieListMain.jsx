@@ -11,10 +11,30 @@ import Error from "./Error";
 import Navbar from "./Navbar";
 import styled from "styled-components";
 
-const Container = styled.div``;
-const Section = styled.div``;
-const Menu = styled.div``;
-const ContentBox = styled.div``;
+const Container = styled.div`
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+`;
+const Section = styled.div`
+  width: 60%;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    width: 80%;
+  }
+  @media (min-width: 1024px) {
+    width: 60%;
+  }
+`;
+const Menu = styled.div`
+  width: 100%;
+`;
+const ContentBox = styled.div`
+  width: 100%;
+  margin-top: 30px;
+`;
 const Footer = styled.div``;
 
 function MovieListMain() {
