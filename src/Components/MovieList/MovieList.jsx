@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getMoviesNowPlaying } from "./api";
+import { categories } from "./api";
 
 const Tab = styled.div`
   display: flex;
@@ -49,14 +49,14 @@ function MovieList() {
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
-    getMovies();
+    getMovies(0);
   }, []);
 
   // 1. await는 반드시 async함수안에 사용한다.
   // 2. try~catch구문을 이용하는 것이 좋다.
-  async function getMovies() {
+  async function getMovies(index) {
     try {
-      let response = await getMoviesNowPlaying(); // 200 OK
+      let response = await categories[index].func(); // 200 OK
       console.log(response.data);
       setData(response.data);
       setLoading(false);
@@ -69,10 +69,11 @@ function MovieList() {
     <div>
       <h1>MovieList</h1>
       <Tab>
-        <Button>Now Playing</Button>
-        <Button>Popular</Button>
-        <Button>Top Rated</Button>
-        <Button>Upcoming</Button>
+        {categories.map((category, i) => (
+          <Button key={i} onClick={() => getMovies(i)}>
+            {category.category}
+          </Button>
+        ))}
       </Tab>
       <Container>
         {loading ? (

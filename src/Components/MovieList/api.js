@@ -7,6 +7,13 @@ const header = {
   },
 };
 
+export const categories = [
+  { category: "Now Playing", func: getMoviesNowPlaying },
+  { category: "Popular", func: getMoviesPopular },
+  { category: "Top Rated", func: getMoviesTopRated },
+  { category: "Upcoming", func: getMoviesUpcoming },
+];
+
 export function getMoviesNowPlaying() {
   return axios.get(
     "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
