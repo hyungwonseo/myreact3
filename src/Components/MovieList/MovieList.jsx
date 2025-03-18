@@ -57,6 +57,8 @@ function MovieList() {
     try {
       let response = await getMoviesNowPlaying(); // 200 OK
       console.log(response.data);
+      setData(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error); // 400, 404, 500 기타등등
     }
@@ -85,27 +87,19 @@ function MovieList() {
         <Button>Upcoming</Button>
       </Tab>
       <Container>
-        <Card>
-          <Img></Img>
-          <Text>타이틀 : </Text>
-          <Text>장르 : </Text>
-          <hr />
-          <Text></Text>
-        </Card>
-        <Card>
-          <Img></Img>
-          <Text>타이틀 : </Text>
-          <Text>장르 : </Text>
-          <hr />
-          <Text></Text>
-        </Card>
-        <Card>
-          <Img></Img>
-          <Text>타이틀 : </Text>
-          <Text>장르 : </Text>
-          <hr />
-          <Text></Text>
-        </Card>
+        {loading ? (
+          <p>로딩중...</p>
+        ) : (
+          data.results.map((movie) => (
+            <Card key={movie.id}>
+              <Img src=""></Img>
+              <Text>타이틀 : {movie.title}</Text>
+              <Text>장르 : {movie.genre_ids}</Text>
+              <hr />
+              <Text>{movie.overview}</Text>
+            </Card>
+          ))
+        )}
       </Container>
     </div>
   );
