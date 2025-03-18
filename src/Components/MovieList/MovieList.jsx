@@ -46,6 +46,7 @@ const Text = styled.div`
 function MovieList() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const IMG_PATH = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
     getMovies();
@@ -66,7 +67,7 @@ function MovieList() {
 
   function getMoviesNowPlaying() {
     return axios.get(
-      "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1",
+      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
       {
         headers: {
           accept: "application/json",
@@ -92,7 +93,7 @@ function MovieList() {
         ) : (
           data.results.map((movie) => (
             <Card key={movie.id}>
-              <Img src=""></Img>
+              <Img src={IMG_PATH + movie.poster_path}></Img>
               <Text>타이틀 : {movie.title}</Text>
               <Text>장르 : {movie.genre_ids}</Text>
               <hr />
