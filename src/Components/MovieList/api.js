@@ -14,6 +14,13 @@ export const categories = [
   { category: "Upcoming", func: getMoviesUpcoming },
 ];
 
+export async function getGenreListMovie() {
+  return axios.get(
+    "https://api.themoviedb.org/3/genre/movie/list?language=en-US&page=1",
+    header
+  );
+}
+
 export function getMoviesNowPlaying() {
   return axios.get(
     "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",

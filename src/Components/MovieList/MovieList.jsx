@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { categories } from "./api";
+import { categories, getGenreListMovie } from "./api";
 
 const Tab = styled.div`
   display: flex;
@@ -51,6 +51,7 @@ function MovieList() {
   const [loading, setLoading] = useState(true);
   const [selectedCat, setSelectedCat] = useState(0);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
+  let genreList = [];
 
   useEffect(() => {
     getMovies(0);
@@ -60,6 +61,15 @@ function MovieList() {
   // 2. try~catch구문을 이용하는 것이 좋다.
   async function getMovies(index) {
     try {
+      // 장르리스트 요청
+      genreList = JSON.parse(sessionStorage.getItem("GenreList"));
+      if (!genreList) {
+        let response = await getGenreListMovie(); // 200 OK
+        genreList = response.data;
+        sessionStorage.setItem("GenreList", JSON.stringify(genreList));
+      }
+
+      // 무비리스트 요청
       let response = await categories[index].func(); // 200 OK
       console.log(response.data);
       setSelectedCat(index);
@@ -67,6 +77,7 @@ function MovieList() {
       setLoading(false);
     } catch (error) {
       console.log(error); // 400, 404, 500 기타등등
+      alert("네트워크 오류로 정상적인 동작이 안되고 있습니다");
     }
   }
 
