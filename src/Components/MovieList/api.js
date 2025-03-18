@@ -48,11 +48,10 @@ export function getMoviesUpcoming() {
 
 // [12, 35, 80]과 같이 숫자의 배열을 매개변수로 전달하면
 // "Adventure, Drama, Crime"과 같이 장르문자열을 리턴하는 함수
-export function getGenreName(idList) {
-  const genreList = JSON.parse(sessionStorage.getItem("GenreList"));
+export function getGenreName(genreList, idList) {
   return idList
     .map((id) => {
-      const found = genreList.genres.find((genre) => genre.id == id);
+      const found = genreList.find((genre) => genre.id == id);
       return found ? found.name : "";
     })
     .filter((name) => name)

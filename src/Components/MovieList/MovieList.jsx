@@ -50,6 +50,7 @@ function MovieList() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedCat, setSelectedCat] = useState(0);
+  const [genreList, setGenreList] = useState([]);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
@@ -60,10 +61,23 @@ function MovieList() {
   // 2. try~catch구문을 이용하는 것이 좋다.
   async function getMovies(index) {
     try {
-      // 장르리스트 요청
-      if (!JSON.parse(sessionStorage.getItem("GenreList"))) {
-        let response = await getGenreListMovie(); // 200 OK
-        sessionStorage.setItem("GenreList", JSON.stringify(response.data));
+      // 장르리스트가 상태에 없을 경우 처리
+      if (genreList.length === 0) {
+        const storedGenreList = JSON.parse(sessionStorage.getItem("GenreList"));
+        if (storedGenreList && storedGenreList.length > 0) {
+          // 세션스토리지에 값이 있으면 상태 업데이트
+          console.log("세션스토리지에 값이 있음");
+          setGenreList(storedGenreList);
+        } else {
+          // 세션스토리지에도 없으면 API 호출
+          console.log("세션스토리지에도 없어서 API 호출");
+          const response = await getGenreListMovie(); // 200 OK
+          setGenreList(response.data.genres);
+          sessionStorage.setItem(
+            "GenreList",
+            JSON.stringify(response.data.genres)
+          );
+        }
       }
 
       // 무비리스트 요청
@@ -100,7 +114,7 @@ function MovieList() {
             <Card key={movie.id}>
               <Img src={IMG_PATH + movie.poster_path}></Img>
               <Text>타이틀 : {movie.title}</Text>
-              <Text>장르 : {getGenreName(movie.genre_ids)}</Text>
+              <Text>장르 : {getGenreName(genreList, movie.genre_ids)}</Text>
               <hr />
               <Text>{movie.overview}</Text>
             </Card>
