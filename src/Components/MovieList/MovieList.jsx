@@ -51,9 +51,15 @@ function MovieList() {
     getMovies();
   }, []);
 
+  // 1. await는 반드시 async함수안에 사용한다.
+  // 2. try~catch구문을 이용하는 것이 좋다.
   async function getMovies() {
-    let response = await getMoviesNowPlaying();
-    console.log(response.data);
+    try {
+      let response = await getMoviesNowPlaying(); // 200 OK
+      console.log(response.data);
+    } catch (error) {
+      console.log(error); // 400, 404, 500 기타등등
+    }
   }
 
   function getMoviesNowPlaying() {
