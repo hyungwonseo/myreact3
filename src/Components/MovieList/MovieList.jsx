@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { categories, getGenreListMovie } from "./api";
+import { categories, getGenreListMovie, getGenreName } from "./api";
 
 const Tab = styled.div`
   display: flex;
@@ -51,7 +51,6 @@ function MovieList() {
   const [loading, setLoading] = useState(true);
   const [selectedCat, setSelectedCat] = useState(0);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
-  let genreList = [];
 
   useEffect(() => {
     getMovies(0);
@@ -62,11 +61,9 @@ function MovieList() {
   async function getMovies(index) {
     try {
       // 장르리스트 요청
-      genreList = JSON.parse(sessionStorage.getItem("GenreList"));
-      if (!genreList) {
+      if (!JSON.parse(sessionStorage.getItem("GenreList"))) {
         let response = await getGenreListMovie(); // 200 OK
-        genreList = response.data;
-        sessionStorage.setItem("GenreList", JSON.stringify(genreList));
+        sessionStorage.setItem("GenreList", JSON.stringify(response.data));
       }
 
       // 무비리스트 요청
@@ -103,7 +100,7 @@ function MovieList() {
             <Card key={movie.id}>
               <Img src={IMG_PATH + movie.poster_path}></Img>
               <Text>타이틀 : {movie.title}</Text>
-              <Text>장르 : {movie.genre_ids}</Text>
+              <Text>장르 : {getGenreName(movie.genre_ids)}</Text>
               <hr />
               <Text>{movie.overview}</Text>
             </Card>
