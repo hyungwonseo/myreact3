@@ -21,6 +21,9 @@ const Button = styled.button`
   &:hover {
     background-color: #ff69b4;
   }
+  &.selected {
+    background-color: #32cd32;
+  }
 `;
 const Container = styled.div`
   width: 100%;
@@ -46,6 +49,7 @@ const Text = styled.div`
 function MovieList() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedCat, setSelectedCat] = useState(0);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
@@ -58,6 +62,7 @@ function MovieList() {
     try {
       let response = await categories[index].func(); // 200 OK
       console.log(response.data);
+      setSelectedCat(index);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -70,7 +75,11 @@ function MovieList() {
       <h1>MovieList</h1>
       <Tab>
         {categories.map((category, i) => (
-          <Button key={i} onClick={() => getMovies(i)}>
+          <Button
+            key={i}
+            onClick={() => getMovies(i)}
+            className={i == selectedCat ? "selected" : ""}
+          >
             {category.category}
           </Button>
         ))}
