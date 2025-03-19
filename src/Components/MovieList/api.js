@@ -45,6 +45,18 @@ export function getMoviesUpcoming() {
     header
   );
 }
+export function getMovieDetailById(id) {
+  return axios.get(
+    `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+    header
+  );
+}
+export function getMovieCreditById(id) {
+  return axios.get(
+    `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+    header
+  );
+}
 
 // [12, 35, 80]과 같이 숫자의 배열을 매개변수로 전달하면
 // "Adventure, Drama, Crime"과 같이 장르문자열을 리턴하는 함수

@@ -29,6 +29,13 @@ function MovieDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  async function getMovieInfo() {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <Container>
