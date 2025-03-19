@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { categories, getGenreListMovie, getGenreName } from "./api";
+import { categories, getGenreListMovie, getGenreName, IMG_PATH } from "./api";
 import { useNavigate } from "react-router-dom";
 
 const Tab = styled.div`
@@ -52,7 +52,6 @@ function MovieList() {
   const [loading, setLoading] = useState(true);
   const [selectedCat, setSelectedCat] = useState(0);
   const [genreList, setGenreList] = useState([]);
-  const IMG_PATH = "https://image.tmdb.org/t/p/original";
   const navigate = useNavigate(); // url수정함수
 
   useEffect(() => {
