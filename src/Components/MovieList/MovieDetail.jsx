@@ -2,6 +2,7 @@ import React, { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getMovieCreditById, getMovieDetailById, IMG_PATH } from "./api";
+import { IconBack } from "./icons";
 
 const Container = styled.div`
   width: 100%;
@@ -14,13 +15,18 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const Icon = styled.div`
+  cursor: pointer;
+`;
 const Img = styled.img`
   width: 100%;
+  margin-top: 20px;
 `;
 const Content = styled.div`
   font-size: 1rem;
   line-height: 30px;
   color: #333;
+  margin-top: 20px;
 `;
 
 function MovieDetail() {
@@ -58,6 +64,9 @@ function MovieDetail() {
           <>
             <Header>
               <h1>{data.title}</h1>
+              <Icon>
+                <IconBack />
+              </Icon>
             </Header>
             <Img src={IMG_PATH + data.backdrop_path}></Img>
             <Content>
@@ -89,6 +98,10 @@ function MovieDetail() {
               </p>
               <p>{data.overview}</p>
             </Content>
+            <br />
+            <br />
+            <br />
+            <br />
           </>
         )}
       </Container>
