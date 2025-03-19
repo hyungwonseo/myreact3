@@ -16,6 +16,8 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 const Icon = styled.div`
+  width: 50px;
+  height: 50px;
   cursor: pointer;
 `;
 const Img = styled.img`

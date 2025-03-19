@@ -8,7 +8,7 @@ const Tab = styled.div`
   gap: 5px;
   margin: 10px 0;
 `;
-const Button = styled.button`
+export const Button = styled.button`
   width: 130px;
   height: 40px;
   background-color: dodgerblue;
@@ -26,22 +26,22 @@ const Button = styled.button`
     background-color: #32cd32;
   }
 `;
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
 `;
-const Card = styled.div`
+export const Card = styled.div`
   width: 100%;
   border: 1px solid dodgerblue;
   cursor: pointer;
   padding: 10px;
 `;
-const Img = styled.img`
+export const Img = styled.img`
   width: 100%;
 `;
-const Text = styled.div`
+export const Text = styled.div`
   color: #333;
   overflow-wrap: break-word;
   word-break: break-all;
