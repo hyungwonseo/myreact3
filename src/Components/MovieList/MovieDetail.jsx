@@ -62,12 +62,32 @@ function MovieDetail() {
             <Img src={IMG_PATH + data.backdrop_path}></Img>
             <Content>
               <p>타이틀 : {data.title}</p>
-              <p>장르 : {data.genres.map().filter().join()}</p>
-              <p>개봉일</p>
-              <p>상영시간</p>
-              <p>감독</p>
-              <p>배우</p>
-              <p>영화설명</p>
+              <p>
+                장르 :{" "}
+                {data.genres
+                  .map((g) => g.name)
+                  .filter((name) => name)
+                  .join(", ")}
+              </p>
+              <p>개봉일 : {data.release_date}</p>
+              <p>상영시간 : {data.runtime + "분"}</p>
+              <p>
+                감독 :{" "}
+                {credit.crew
+                  .filter((c) => c.job == "Director")
+                  .map((c) => c.name)
+                  .filter((name) => name)
+                  .join(", ")}
+              </p>
+              <p>
+                배우 :{" "}
+                {credit.cast
+                  .slice(0, 10)
+                  .map((c) => c.name)
+                  .filter((name) => name)
+                  .join(", ")}
+              </p>
+              <p>{data.overview}</p>
             </Content>
           </>
         )}
