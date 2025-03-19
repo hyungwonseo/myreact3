@@ -1,6 +1,7 @@
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getMovieCreditById, getMovieDetailById, IMG_PATH } from "./api";
 
 const Container = styled.div`
   width: 100%;
@@ -29,29 +30,47 @@ function MovieDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    getMovieInfo();
+  }, []);
+
   async function getMovieInfo() {
     try {
+      let response = await getMovieDetailById(id);
+      console.log(response.data);
+      setData(response.data);
+      response = await getMovieCreditById(id);
+      console.log(response.data);
+      setCredit(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      alert("네트워크 오류로 정상적인 동작이 안되고 있습니다");
     }
   }
 
   return (
     <div>
       <Container>
-        <Header>
-          <h1>타이틀</h1>
-        </Header>
-        <Img></Img>
-        <Content>
-          <p>타이틀</p>
-          <p>장르</p>
-          <p>개봉일</p>
-          <p>상영시간</p>
-          <p>감독</p>
-          <p>배우</p>
-          <p>영화설명</p>
-        </Content>
+        {loading ? (
+          "로딩중..."
+        ) : (
+          <>
+            <Header>
+              <h1>{data.title}</h1>
+            </Header>
+            <Img src={IMG_PATH + data.backdrop_path}></Img>
+            <Content>
+              <p>타이틀</p>
+              <p>장르</p>
+              <p>개봉일</p>
+              <p>상영시간</p>
+              <p>감독</p>
+              <p>배우</p>
+              <p>영화설명</p>
+            </Content>
+          </>
+        )}
       </Container>
     </div>
   );
