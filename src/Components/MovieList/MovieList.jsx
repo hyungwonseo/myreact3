@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { categories, getGenreListMovie, getGenreName } from "./api";
+import { useNavigate } from "react-router-dom";
 
 const Tab = styled.div`
   display: flex;
@@ -52,6 +53,7 @@ function MovieList() {
   const [selectedCat, setSelectedCat] = useState(0);
   const [genreList, setGenreList] = useState([]);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
+  const navigate = useNavigate(); // url수정함수
 
   useEffect(() => {
     getMovies(0);
@@ -111,7 +113,7 @@ function MovieList() {
           <p>로딩중...</p>
         ) : (
           data.results.map((movie) => (
-            <Card key={movie.id}>
+            <Card key={movie.id} onClick={() => navigate(`${movie.id}`)}>
               <Img src={IMG_PATH + movie.poster_path}></Img>
               <Text>타이틀 : {movie.title}</Text>
               <Text>장르 : {getGenreName(genreList, movie.genre_ids)}</Text>
