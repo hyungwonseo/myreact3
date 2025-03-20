@@ -6,7 +6,12 @@ import { Card } from "./MovieList";
 import { Img } from "./MovieList";
 import { Text } from "./MovieList";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getGenreName, IMG_PATH, searchMoviesByKeyword } from "./api";
+import {
+  getGenreName,
+  IMG_PATH,
+  searchMoviesByKeyword,
+  getGenreListMovie,
+} from "./api";
 
 const SearchBox = styled.div`
   width: 100%;
@@ -26,6 +31,7 @@ function Search() {
   const [inputKeyword, setInputKeyword] = useState("");
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [genreList, setGenreList] = useState([]);
   const navigate = useNavigate();
   const location = useLocation(); // url로부터 정보를 얻기위한 함수
   const urlKeyword = new URLSearchParams(location.search).get("keyword");
@@ -41,7 +47,15 @@ function Search() {
 
   async function searchMovies(value) {
     try {
-      let response = await searchMoviesByKeyword(value);
+      // 장르리스트 요청
+      let response = await getGenreListMovie();
+      if (!response || response.length === 0) {
+        console.log("장르 데이터를 가져오지 못했습니다.");
+        return;
+      }
+      console.log(response);
+      setGenreList(response);
+      response = await searchMoviesByKeyword(value);
       console.log(response.data);
       setData(response.data);
       setLoading(false);
