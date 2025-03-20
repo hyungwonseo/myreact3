@@ -28,26 +28,24 @@ function Search() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation(); // url로부터 정보를 얻기위한 함수
+  const urlKeyword = new URLSearchParams(location.search).get("keyword");
 
   useEffect(() => {
-    setKeyword(new URLSearchParams(location.search).get("keyword"));
-  }, []);
-
-  useEffect(() => {
-    if (keyword) {
-      searchMovies();
+    if (urlKeyword) {
+      searchMovies(urlKeyword);
     } else {
-      setKeyword("");
+      setData(null);
+      setLoading(true);
     }
-  }, [keyword]);
+  }, [urlKeyword]);
 
   function handleChange(value) {
     setKeyword(value);
   }
 
-  async function searchMovies() {
+  async function searchMovies(value) {
     try {
-      let response = await searchMoviesByKeyword(keyword);
+      let response = await searchMoviesByKeyword(value);
       console.log(response.data);
       setData(response.data);
       setLoading(false);
@@ -68,7 +66,9 @@ function Search() {
         />
         <Button
           onClick={() => {
-            navigate(`/search?keyword=${keyword}`);
+            keyword
+              ? navigate(`/search?keyword=${keyword}`)
+              : alert("검색어를 입력해주세요");
           }}
         >
           검색
