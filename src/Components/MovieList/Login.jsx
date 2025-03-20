@@ -78,8 +78,9 @@ export const useUserStore = create(
   persist(
     (set) => ({
       user: null,
-      login: (email) => set({ user: { email } }), // 로그인 처리
-      logout: () => set({ user: null }), // 로그아웃 처리
+      isLoggedIn: false,
+      login: (user) => set({ user, isLoggedIn: true }), // 로그인 처리
+      logout: () => set({ user: null, isLoggedIn: false }), // 로그아웃 처리
     }),
     {
       name: "user-storage", // sessionStorage에 저장될 키 이름
@@ -96,7 +97,7 @@ function Login() {
 
   function handleSubmit() {
     console.log("click " + email + " " + password);
-    login(email);
+    login({ email: email });
     setEmail("");
     setPassword("");
   }
