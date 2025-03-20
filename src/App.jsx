@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 import MovieListMain from "./Components/MovieList/MovieListMain";
-
 const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;

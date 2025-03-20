@@ -1,11 +1,11 @@
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./MovieList";
 import { Container } from "./MovieList";
 import { Card } from "./MovieList";
 import { Img } from "./MovieList";
 import { Text } from "./MovieList";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getGenreName, IMG_PATH, searchMoviesByKeyword } from "./api";
 
 const SearchBox = styled.div`
@@ -27,16 +27,25 @@ function Search() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation(); // url로부터 정보를 얻기위한 함수
+
+  useEffect(() => {
+    setKeyword(new URLSearchParams(location.search).get("keyword"));
+  }, []);
+
+  useEffect(() => {
+    if (keyword) {
+      searchMovies();
+    } else {
+      setKeyword("");
+    }
+  }, [keyword]);
 
   function handleChange(value) {
     setKeyword(value);
   }
 
   async function searchMovies() {
-    if (!keyword) {
-      alert("검색어를 입력해주세요.");
-      return;
-    }
     try {
       let response = await searchMoviesByKeyword(keyword);
       console.log(response.data);
@@ -57,7 +66,13 @@ function Search() {
           onChange={(e) => handleChange(e.target.value)}
           placeholder="검색어를 입력해주세요"
         />
-        <Button onClick={searchMovies}>검색</Button>
+        <Button
+          onClick={() => {
+            navigate(`/search?keyword=${keyword}`);
+          }}
+        >
+          검색
+        </Button>
       </SearchBox>
       <H3>{keyword ? `${keyword}로 검색한 결과 리스트` : "Search"}</H3>
       <Container>
