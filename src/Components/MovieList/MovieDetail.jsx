@@ -2,7 +2,7 @@ import React, { use, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getMovieCreditById, getMovieDetailById, IMG_PATH } from "./api";
-import { IconBack } from "./icons";
+import { IconBack } from "./Icons";
 
 const Container = styled.div`
   width: 100%;
@@ -16,8 +16,8 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 const Icon = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   cursor: pointer;
 `;
 const Img = styled.img`
@@ -29,6 +29,11 @@ const Content = styled.div`
   line-height: 30px;
   color: #333;
   margin-top: 20px;
+`;
+const Bottom = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: dodgerblue;
 `;
 
 function MovieDetail() {
@@ -100,6 +105,11 @@ function MovieDetail() {
               </p>
               <p>{data.overview}</p>
             </Content>
+            <Bottom>
+              <Icon>
+                <IconBack />
+              </Icon>
+            </Bottom>
             <br />
             <br />
             <br />
