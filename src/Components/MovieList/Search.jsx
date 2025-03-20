@@ -37,7 +37,7 @@ function Search() {
       setData(null);
       setLoading(true);
     }
-  }, [urlKeyword]);
+  }, [urlKeyword]); // 상태변수가 아닌 일반 변수도 사용 가능!!!
 
   async function searchMovies(value) {
     try {
