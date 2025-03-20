@@ -67,26 +67,26 @@ const Button = styled.button`
 `;
 
 // 1. Zustand를 이용한 글로벌 상태관리 기본 사용법
-export const useUserStore = create((set) => ({
-  user: null,
-  login: (email) => set({ user: { email } }), // 로그인 처리
-  logout: () => set({ user: null }), // 로그아웃 처리
-}));
+// export const useUserStore = create((set) => ({
+//   user: null,
+//   login: (email) => set({ user: { email } }), // 로그인 처리
+//   logout: () => set({ user: null }), // 로그아웃 처리
+// }));
 
 // 2. Zustand로 데이터를 스토리지에 저장하는 옵션 사용법(세션/로컬 스토리지에 자동으로 저장)
-// export const useUserStore = create(
-//   persist(
-//     (set) => ({
-//       user: null,
-//       login: (email) => set({ user: { email } }), // 로그인 처리
-//       logout: () => set({ user: null }), // 로그아웃 처리
-//     }),
-//     {
-//       name: "user-storage", // sessionStorage에 저장될 키 이름
-//       storage: createJSONStorage(() => sessionStorage), // sessionStorage에 저장
-//     }
-//   )
-// );
+export const useUserStore = create(
+  persist(
+    (set) => ({
+      user: null,
+      login: (email) => set({ user: { email } }), // 로그인 처리
+      logout: () => set({ user: null }), // 로그아웃 처리
+    }),
+    {
+      name: "user-storage", // sessionStorage에 저장될 키 이름
+      storage: createJSONStorage(() => sessionStorage), // sessionStorage에 저장
+    }
+  )
+);
 
 function Login() {
   const [email, setEmail] = useState("");
