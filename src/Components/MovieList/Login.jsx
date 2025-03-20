@@ -54,6 +54,14 @@ const Button = styled.button`
   border: none;
   border-radius: 30px;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(2px);
+  }
 `;
 
 function Login() {
