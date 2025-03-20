@@ -23,7 +23,7 @@ const H3 = styled.h3`
 `;
 
 function Search() {
-  const [keyword, setKeyword] = useState("");
+  const [inputKeyword, setInputKeyword] = useState("");
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -38,10 +38,6 @@ function Search() {
       setLoading(true);
     }
   }, [urlKeyword]);
-
-  function handleChange(value) {
-    setKeyword(value);
-  }
 
   async function searchMovies(value) {
     try {
@@ -60,21 +56,21 @@ function Search() {
       <SearchBox>
         <Input
           type="text"
-          value={keyword}
-          onChange={(e) => handleChange(e.target.value)}
+          value={inputKeyword}
+          onChange={(e) => setInputKeyword(e.target.value)}
           placeholder="검색어를 입력해주세요"
         />
         <Button
           onClick={() => {
-            keyword
-              ? navigate(`/search?keyword=${keyword}`)
+            inputKeyword
+              ? navigate(`/search?keyword=${inputKeyword}`)
               : alert("검색어를 입력해주세요");
           }}
         >
           검색
         </Button>
       </SearchBox>
-      <H3>{keyword ? `${keyword}로 검색한 결과 리스트` : "Search"}</H3>
+      <H3>{urlKeyword ? `${urlKeyword}로 검색한 결과 리스트` : "Search"}</H3>
       <Container>
         {loading
           ? "대기중..."
