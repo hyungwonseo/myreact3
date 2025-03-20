@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { categories, getGenreListMovie, getGenreName, IMG_PATH } from "./api";
 import { useNavigate } from "react-router-dom";
+import noExist from "./img/no_exist.jpg";
 
 const Tab = styled.div`
   display: flex;
@@ -102,7 +103,9 @@ function MovieList() {
         ) : (
           data.results.map((movie) => (
             <Card key={movie.id} onClick={() => navigate(`${movie.id}`)}>
-              <Img src={IMG_PATH + movie.poster_path}></Img>
+              <Img
+                src={movie.poster_path ? IMG_PATH + movie.poster_path : noExist}
+              ></Img>
               <Text>타이틀 : {movie.title}</Text>
               <Text>장르 : {getGenreName(genreList, movie.genre_ids)}</Text>
               <hr />

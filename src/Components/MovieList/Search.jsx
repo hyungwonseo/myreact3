@@ -12,6 +12,7 @@ import {
   searchMoviesByKeyword,
   getGenreListMovie,
 } from "./api";
+import noExist from "./img/no_exist.jpg";
 
 const SearchBox = styled.div`
   width: 100%;
@@ -93,9 +94,13 @@ function Search() {
                 key={movie.id}
                 onClick={() => navigate(`/movie/${movie.id}`)}
               >
-                <Img src={IMG_PATH + movie.poster_path}></Img>
+                <Img
+                  src={
+                    movie.poster_path ? IMG_PATH + movie.poster_path : noExist
+                  }
+                ></Img>
                 <Text>타이틀 : {movie.title}</Text>
-                <Text>장르 : </Text>
+                <Text>장르 : {getGenreName(genreList, movie.genre_ids)}</Text>
                 <hr />
                 <Text>{movie.overview}</Text>
               </Card>

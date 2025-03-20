@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { IconEmail, IconPassword } from "./Icons";
 
 const Container = styled.div`
   width: 100%;
@@ -31,6 +32,10 @@ const Smallbox = styled.form`
   gap: 0.5em;
   border-radius: 20px;
   color: hsl(0deg 0% 30%);
+`;
+const Icon = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 const Input = styled.input`
   outline: none;
@@ -74,25 +79,31 @@ function Login() {
           <br />
           <Smallbox>
             <label>Email Address</label>
-            <Input
-              type="text"
-              value={userName}
-              onChange={(e) => {
-                handleChangeUserName(e);
-              }}
-              placeholder="Username@gmail.com"
-            />
+            <Icon>
+              <IconEmail />
+              <Input
+                type="text"
+                value={userName}
+                onChange={(e) => {
+                  handleChangeUserName(e);
+                }}
+                placeholder="Username@gmail.com"
+              />
+            </Icon>
           </Smallbox>
           <Smallbox>
-            <label>Email Address</label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => {
-                handleChangePassword(e);
-              }}
-              placeholder="· · · · · · · · · · · ·"
-            />
+            <label>Password</label>
+            <Icon>
+              <IconPassword />
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  handleChangePassword(e);
+                }}
+                placeholder="· · · · · · · · · · · ·"
+              />
+            </Icon>
           </Smallbox>
           <Button type="submit">로그인</Button>
         </Box>
