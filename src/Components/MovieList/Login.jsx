@@ -8,12 +8,12 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: hsl(218deg 50% 91%);
+  background-color: hsl(218deg 50% 91%);
 `;
 const Box = styled.div`
   width: 300px;
   height: auto;
-  background: hsl(213deg 85% 97%);
+  background-color: hsl(213deg 85% 97%);
   padding: 2em;
   display: flex;
   flex-direction: column;
@@ -49,7 +49,7 @@ const Button = styled.button`
   width: 100%;
   padding: 1em;
   margin-top: 10px;
-  background: hsl(233deg 36% 38%);
+  background-color: hsl(233deg 36% 38%);
   color: hsl(0 0 100);
   border: none;
   border-radius: 30px;
