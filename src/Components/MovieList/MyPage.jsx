@@ -6,8 +6,10 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  grid-auto-rows: minmax(150px, auto);
+  /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-auto-rows: minmax(150px, auto); */
+  grid-template-columns: repeat(24, minmax(35px, 1fr));
+  grid-auto-rows: minmax(50px, auto);
   grid-auto-flow: dense;
   gap: 10px;
 `;
@@ -41,8 +43,8 @@ function MyPage() {
   const generateItems = () => {
     const items = [];
     for (let i = 1; i <= 20; i++) {
-      const colSpan = Math.floor(Math.random() * 3) + 1;
-      const rowSpan = Math.floor(Math.random() * 3) + 1;
+      const colSpan = Math.floor(Math.random() * 3) + 3;
+      const rowSpan = Math.floor(Math.random() * 3) + 3;
       const bgColor = colors[Math.floor(Math.random() * colors.length)];
       items.push(
         <Item
