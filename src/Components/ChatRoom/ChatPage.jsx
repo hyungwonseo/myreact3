@@ -85,17 +85,59 @@ const colors = [
   "#FF9800",
   "#39bbb0",
 ];
+
 function ChatPage({ username, message, stompClientRef }) {
   const [value, setValue] = useState("");
+  const [messageList, setMessageList] = useState([]);
 
-  function sendMessage() {}
+  useEffect(() => {
+    if (!message) {
+      return;
+    }
+    if (message.type === "JOIN") {
+      message.content = message.sender + " joined!";
+    } else if (message.type === "LEAVE") {
+      message.content = message.sender + " left!";
+    }
+    setMessageList((prev) => [...prev, message]);
+  }, [message]);
+
+  function sendMessage(e) {
+    e.preventDefault();
+    if (value && stompClientRef.current) {
+      const chatMessage = {
+        sender: username,
+        content: value,
+        type: "CHAT",
+      };
+      stompClientRef.current.publish({
+        destination: "/app/chat.sendMessage",
+        body: JSON.stringify(chatMessage),
+      });
+      setValue("");
+    }
+  }
 
   return (
     <Container>
       <Header>
         <h2>Spring WebSocket Chat Demo</h2>
       </Header>
-      <MessageArea></MessageArea>
+      <MessageArea>
+        {messageList.map((m, i) => (
+          <MessageWrapper key={i}>
+            <Icon>
+              <span>{m.sender[0].toUpperCase()}</span>
+            </Icon>
+            <Message>
+              <div>
+                <strong>{m.sender}</strong>
+              </div>
+              <div>{m.content}</div>
+            </Message>
+          </MessageWrapper>
+        ))}
+      </MessageArea>
       <form onSubmit={sendMessage}>
         <Box>
           <Input
