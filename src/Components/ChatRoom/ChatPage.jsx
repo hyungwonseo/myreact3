@@ -85,8 +85,31 @@ const colors = [
   "#FF9800",
   "#39bbb0",
 ];
-function ChatPage() {
-  return <Container></Container>;
+function ChatPage({ username, message, stompClientRef }) {
+  const [value, setValue] = useState("");
+
+  function sendMessage() {}
+
+  return (
+    <Container>
+      <Header>
+        <h2>Spring WebSocket Chat Demo</h2>
+      </Header>
+      <MessageArea></MessageArea>
+      <form onSubmit={sendMessage}>
+        <Box>
+          <Input
+            type="text"
+            placeholder="Type a message..."
+            autoComplete="off"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <Button type="submit">Send</Button>
+        </Box>
+      </form>
+    </Container>
+  );
 }
 
 export default ChatPage;
