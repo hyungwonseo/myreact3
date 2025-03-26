@@ -89,18 +89,31 @@ const colors = [
 function ChatPage({ username, message, stompClientRef }) {
   const [value, setValue] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const messageAreaRef = useRef();
 
   useEffect(() => {
+    handleMessage(message);
+  }, [message]);
+
+  useEffect(() => {
+    if (messageAreaRef.current) {
+      messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
+    }
+  }, [messageList]);
+
+  function handleMessage(message) {
     if (!message) {
       return;
     }
+    console.log(message);
     if (message.type === "JOIN") {
       message.content = message.sender + " joined!";
     } else if (message.type === "LEAVE") {
       message.content = message.sender + " left!";
+    } else {
     }
     setMessageList((prev) => [...prev, message]);
-  }, [message]);
+  }
 
   function sendMessage(e) {
     e.preventDefault();
@@ -118,18 +131,27 @@ function ChatPage({ username, message, stompClientRef }) {
     }
   }
 
+  function getAvatarColor(messageSender) {
+    var hash = 0;
+    for (var i = 0; i < messageSender.length; i++) {
+      hash = 31 * hash + messageSender.charCodeAt(i);
+    }
+    var index = Math.abs(hash % colors.length);
+    return colors[index];
+  }
+
   return (
     <Container>
       <Header>
         <h2>Spring WebSocket Chat Demo</h2>
       </Header>
-      <MessageArea>
-        {messageList.map((m, i) =>
+      <MessageArea ref={messageAreaRef}>
+        {messageList?.map((m, i) =>
           m.type === "JOIN" || m.type === "LEAVE" ? (
             <Join key={i}>{m.content}</Join>
           ) : (
             <MessageWrapper key={i}>
-              <Icon>
+              <Icon $bgcolor={getAvatarColor(m.sender)}>
                 <span>{m.sender[0].toUpperCase()}</span>
               </Icon>
               <Message>
