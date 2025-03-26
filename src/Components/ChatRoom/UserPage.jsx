@@ -33,6 +33,7 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
 `;
+
 function UserPage({ url }) {
   const [username, setUsername] = useState("");
   const [isConnected, setIsConnected] = useState(false);
@@ -44,7 +45,7 @@ function UserPage({ url }) {
 
   function connect(e) {
     e.preventDefault();
-    if (username) {
+    if (username && !stompClientRef.current) {
       // 웹소켓 연결(=엔드포인트) 설정
       const client = new Stomp.Client({
         webSocketFactory: () => new SockJS(`${url}/ws`),
@@ -75,6 +76,15 @@ function UserPage({ url }) {
     setMessage(body);
     console.log("Received:", body);
   }
+
+  useEffect(() => {
+    return () => {
+      if (stompClientRef.current) {
+        stompClientRef.current.deactivate();
+        console.log("WebSocket disconnected");
+      }
+    };
+  }, []);
 
   return (
     <>
