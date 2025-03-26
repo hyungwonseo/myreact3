@@ -55,8 +55,12 @@ function UserPage({ url }) {
             body: JSON.stringify({ sender: username, type: "JOIN" }),
           });
         },
-        onStompError: () => {},
+        onStompError: (frame) => {
+          console.error("Broker error", frame.headers["message"]);
+        },
       });
+
+      client.activate();
     }
   }
 
