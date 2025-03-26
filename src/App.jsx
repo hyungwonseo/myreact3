@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import MovieListMain from "./Components/MovieList/MovieListMain";
+import ChatRoomMain from "./Components/ChatRoom/ChatRoomMain";
 const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -17,7 +17,7 @@ function App() {
   return (
     <div>
       <GlobalStyle />
-      <MovieListMain />
+      <ChatRoomMain />
     </div>
   );
 }

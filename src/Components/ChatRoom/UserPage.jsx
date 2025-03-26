@@ -33,10 +33,54 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
 `;
-function UserPage() {
+function UserPage({ url }) {
+  const [username, setUsername] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+
+  function connect(e) {
+    e.preventDefault();
+    if (username) {
+      // 웹소켓 연결(=엔드포인트) 설정
+      const client = new Stomp.Client({
+        webSocketFactory: () => new SockJS(`${url}/ws`),
+        onConnect: () => {
+          console.log("Connected as", username);
+          setIsConnected(true);
+
+          // 구독
+          client.subscribe("/topic/public", onMessageReceived);
+          // JOIN 전송
+          client.publish({
+            destination: "/app/chat.addUser",
+            body: JSON.stringify({ sender: username, type: "JOIN" }),
+          });
+        },
+        onStompError: () => {},
+      });
+    }
+  }
+
+  function onMessageReceived(message) {}
+
   return (
     <>
-      <h1>User Page</h1>
+      {!isConnected ? (
+        <Container>
+          <h2>Type your username to enter the Chatroom</h2>
+          <form onSubmit={connect}>
+            <Input
+              type="text"
+              placeholder="Username"
+              autoComplete="off"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Button type="submit">Start Chatting</Button>
+          </form>
+        </Container>
+      ) : (
+        <ChatPage />
+      )}
     </>
   );
 }
