@@ -124,19 +124,23 @@ function ChatPage({ username, message, stompClientRef }) {
         <h2>Spring WebSocket Chat Demo</h2>
       </Header>
       <MessageArea>
-        {messageList.map((m, i) => (
-          <MessageWrapper key={i}>
-            <Icon>
-              <span>{m.sender[0].toUpperCase()}</span>
-            </Icon>
-            <Message>
-              <div>
-                <strong>{m.sender}</strong>
-              </div>
-              <div>{m.content}</div>
-            </Message>
-          </MessageWrapper>
-        ))}
+        {messageList.map((m, i) =>
+          m.type === "JOIN" || m.type === "LEAVE" ? (
+            <Join key={i}>{m.content}</Join>
+          ) : (
+            <MessageWrapper key={i}>
+              <Icon>
+                <span>{m.sender[0].toUpperCase()}</span>
+              </Icon>
+              <Message>
+                <div>
+                  <strong>{m.sender}</strong>
+                </div>
+                <div>{m.content}</div>
+              </Message>
+            </MessageWrapper>
+          )
+        )}
       </MessageArea>
       <form onSubmit={sendMessage}>
         <Box>
