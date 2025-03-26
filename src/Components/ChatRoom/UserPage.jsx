@@ -36,6 +36,11 @@ const Button = styled.button`
 function UserPage({ url }) {
   const [username, setUsername] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const [message, setMessage] = useState(null);
+  // client 연결객체는 상태관리는 필요하나 화면 렌더링과
+  // 무관하므로 useRef로 생성
+  // useRef로 만드는 변수는 화면렌더링을 일으키지 않아서 성능에 유리
+  const stompClientRef = useRef(null);
 
   function connect(e) {
     e.preventDefault();
@@ -45,6 +50,7 @@ function UserPage({ url }) {
         webSocketFactory: () => new SockJS(`${url}/ws`),
         onConnect: () => {
           console.log("Connected as", username);
+          stompClientRef.current = client;
           setIsConnected(true);
 
           // 구독
@@ -64,7 +70,11 @@ function UserPage({ url }) {
     }
   }
 
-  function onMessageReceived(message) {}
+  function onMessageReceived(message) {
+    const body = JSON.parse(message.body);
+    setMessage(body);
+    console.log("Received:", body);
+  }
 
   return (
     <>
@@ -83,7 +93,11 @@ function UserPage({ url }) {
           </form>
         </Container>
       ) : (
-        <ChatPage />
+        <ChatPage
+          username={username}
+          message={message}
+          stompClientRef={stompClientRef}
+        />
       )}
     </>
   );
