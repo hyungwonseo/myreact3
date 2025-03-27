@@ -1,5 +1,7 @@
 import { createGlobalStyle } from "styled-components";
-import ChatRoomMain from "./Components/ChatRoom/ChatRoomMain";
+import { ChartTest1 } from "./Components/Chartjs/ChartTest1";
+import { ChartTest2 } from "./Components/Chartjs/ChartTest2";
+
 const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -17,7 +19,8 @@ function App() {
   return (
     <div>
       <GlobalStyle />
-      <ChatRoomMain />
+      <ChartTest1 />
+      <ChartTest2 />
     </div>
   );
 }
