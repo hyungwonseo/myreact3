@@ -45,10 +45,15 @@ function UserPage({ url }) {
 
   function connect(e) {
     e.preventDefault();
+    // const tokenObject = JSON.parse(sessionStorage.getItem("jwt-token"));
     if (username && !stompClientRef.current) {
       // 웹소켓 연결(=엔드포인트) 설정
       const client = new Stomp.Client({
         webSocketFactory: () => new SockJS(`${url}/ws`),
+        connectHeaders: {
+          // Authorization: `Bearer ${tokenObject.token}`, // JWT 토큰
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGV2ZTEyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTc0NDM1NDU2MH0.2B62R-i4A35tOsVfL3IQbGcEurFJeqoUkNduk_0lJO0NefIhhoK_xHYu-9UDDFqMHILaTSWQVKSjw8KxgIgHMw`,
+        },
         onConnect: () => {
           console.log("Connected as", username);
           stompClientRef.current = client;
@@ -64,6 +69,7 @@ function UserPage({ url }) {
         },
         onStompError: (frame) => {
           console.error("Broker error", frame.headers["message"]);
+          client.deactivate(); // 재시도 멈추기
         },
       });
 
