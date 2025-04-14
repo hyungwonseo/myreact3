@@ -1,10 +1,22 @@
+import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import { useUserStore } from "./Login";
 
 const Container = styled.div`
   width: 100%;
   max-width: 700px;
   height: 600px;
+  position: relative;
+  background-color: white;
+  box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+  border-radius: 2px;
+  margin: 30px auto 0;
+  padding: 15px;
+`;
+const Notification = styled.div`
+  width: 100%;
+  max-width: 700px;
   position: relative;
   background-color: white;
   box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
@@ -87,8 +99,10 @@ const colors = [
 ];
 
 function ChatPage({ username, message, stompClientRef }) {
+  const { user, isLoggedIn, login, logout } = useUserStore();
   const [value, setValue] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const [notification, setNotification] = useState("");
   const messageAreaRef = useRef();
 
   useEffect(() => {
@@ -140,43 +154,79 @@ function ChatPage({ username, message, stompClientRef }) {
     return colors[index];
   }
 
+  async function handleNotification(e) {
+    e.preventDefault();
+    if (notification) {
+      try {
+        await axios.post("/api/notification/", notification, {
+          headers: {
+            Authorization: "Bearer " + user.token,
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      setNotification("");
+    }
+  }
+
   return (
-    <Container>
-      <Header>
-        <h2>Spring WebSocket Chat Demo</h2>
-      </Header>
-      <MessageArea ref={messageAreaRef}>
-        {messageList?.map((m, i) =>
-          m.type === "JOIN" || m.type === "LEAVE" ? (
-            <Join key={i}>{m.content}</Join>
-          ) : (
-            <MessageWrapper key={i}>
-              <Icon $bgcolor={getAvatarColor(m.sender)}>
-                <span>{m.sender[0].toUpperCase()}</span>
-              </Icon>
-              <Message>
-                <div>
-                  <strong>{m.sender}</strong>
-                </div>
-                <div>{m.content}</div>
-              </Message>
-            </MessageWrapper>
-          )
-        )}
-      </MessageArea>
-      <form onSubmit={sendMessage}>
-        <Box>
-          <Input
-            type="text"
-            placeholder="Type a message..."
-            autoComplete="off"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-          <Button type="submit">Send</Button>
-        </Box>
-      </form>
-    </Container>
+    <>
+      <Container>
+        <Header>
+          <h2>Spring WebSocket Chat Demo</h2>
+        </Header>
+        <MessageArea ref={messageAreaRef}>
+          {messageList?.map((m, i) =>
+            m.type === "JOIN" || m.type === "LEAVE" ? (
+              <Join key={i}>{m.content}</Join>
+            ) : (
+              <MessageWrapper key={i}>
+                <Icon $bgcolor={getAvatarColor(m.sender)}>
+                  <span>{m.sender[0].toUpperCase()}</span>
+                </Icon>
+                <Message>
+                  <div>
+                    <strong>{m.sender}</strong>
+                  </div>
+                  <div>{m.content}</div>
+                </Message>
+              </MessageWrapper>
+            )
+          )}
+        </MessageArea>
+        <form onSubmit={sendMessage}>
+          <Box>
+            <Input
+              type="text"
+              placeholder="Type a message..."
+              autoComplete="off"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <Button type="submit">Send</Button>
+          </Box>
+        </form>
+      </Container>
+      <Notification>
+        <Header>
+          <h2>Notification</h2>
+        </Header>
+        <form onSubmit={handleNotification}>
+          <Box>
+            <Input
+              type="text"
+              placeholder="Type a notification message..."
+              autoComplete="off"
+              value={notification}
+              onChange={(e) => setNotification(e.target.value)}
+            />
+            <Button type="submit">Send</Button>
+          </Box>
+        </form>
+      </Notification>
+    </>
   );
 }
 

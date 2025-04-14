@@ -82,6 +82,17 @@ function FileUpload() {
     }
   }
 
+  useEffect(() => {
+    return () => {
+      console.log("메모리 정리 blob URLs:", imgUrl);
+      imgUrl.forEach((url) => {
+        if (url) {
+          URL.revokeObjectURL(url);
+        }
+      });
+    };
+  }, [imgUrl]);
+
   return (
     <div>
       {isLoggedIn ? (
