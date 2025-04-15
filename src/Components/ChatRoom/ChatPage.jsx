@@ -45,6 +45,7 @@ const Box = styled.div`
 const Input = styled.input`
   width: calc(100% - 85px);
   height: 40px;
+  padding: 3px;
 `;
 const Button = styled.button`
   width: 80px;
@@ -86,6 +87,11 @@ const Join = styled(Message)`
   padding: 7px 0;
 `;
 const Leave = styled(Join)``;
+const Box2 = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+`;
 
 const colors = [
   "#2196F3",
@@ -103,6 +109,8 @@ function ChatPage({ username, message, stompClientRef }) {
   const [value, setValue] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [notification, setNotification] = useState("");
+  const [privateMessage, setPrivateMessage] = useState("");
+  const [targetUsername, setTargetUsername] = useState("");
   const messageAreaRef = useRef();
 
   useEffect(() => {
@@ -171,6 +179,23 @@ function ChatPage({ username, message, stompClientRef }) {
     }
   }
 
+  async function sendPrivateMessage(e) {
+    e.preventDefault();
+    if (privateMessage && stompClientRef.current) {
+      const chatMessage = {
+        sender: username,
+        receiver: targetUsername,
+        content: privateMessage,
+        type: "PRIVATE",
+      };
+      stompClientRef.current.publish({
+        destination: "/app/chat.privateMessage",
+        body: JSON.stringify(chatMessage),
+      });
+      setPrivateMessage("");
+    }
+  }
+
   return (
     <>
       <Container>
@@ -226,6 +251,34 @@ function ChatPage({ username, message, stompClientRef }) {
           </Box>
         </form>
       </Notification>
+      <Notification>
+        <Header>
+          <h2>Private Message</h2>
+        </Header>
+        <form onSubmit={sendPrivateMessage}>
+          <Box2>
+            <Input
+              type="text"
+              placeholder="Type a private message..."
+              autoComplete="off"
+              value={privateMessage}
+              onChange={(e) => setPrivateMessage(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Type username to send private message..."
+              autoComplete="off"
+              value={targetUsername}
+              onChange={(e) => setTargetUsername(e.target.value)}
+            />
+            <Button type="submit">Send</Button>
+          </Box2>
+        </form>
+      </Notification>
+      <br />
+      <br />
+      <br />
+      <br />
     </>
   );
 }
