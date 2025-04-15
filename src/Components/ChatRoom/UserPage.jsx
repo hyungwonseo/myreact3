@@ -59,8 +59,9 @@ function UserPage({ url }) {
           stompClientRef.current = client;
           setIsConnected(true);
 
-          // 구독
+          // 채팅방 구독
           client.subscribe("/topic/public", onMessageReceived);
+          // 개인 메시지 구독
           client.subscribe(
             `/user/${username}/queue/private`,
             onNotificationReceived
@@ -90,6 +91,7 @@ function UserPage({ url }) {
   function onNotificationReceived(notification) {
     const body = JSON.parse(notification.body);
     console.log("Notification Received:", body);
+    alert(body.content);
   }
 
   useEffect(() => {

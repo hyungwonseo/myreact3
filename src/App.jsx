@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import ChatRoomMain from "./Components/ChatRoom/ChatRoomMain";
+import FileUpload from "./Components/FileUpload/FileUpload";
 
 const GlobalStyle = createGlobalStyle`
   * {
