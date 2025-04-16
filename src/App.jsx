@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import ChatRoomMain from "./Components/ChatRoom/ChatRoomMain";
 import FileUpload from "./Components/FileUpload/FileUpload";
+import DrawingCanvas from "./Components/Drawing/DrawingCanvas";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -19,7 +20,7 @@ function App() {
   return (
     <div>
       <GlobalStyle />
-      <ChatRoomMain />
+      <DrawingCanvas />
     </div>
   );
 }
