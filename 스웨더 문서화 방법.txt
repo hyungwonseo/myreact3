@@ -1,0 +1,12 @@
+1. redoc 설치 (vscode)
+npm install @redocly/cli
+
+2. 스웨거 내용을 json 파일로 저장 (저장위치 기억)
+http://localhost:8080/v3/api-docs
+
+3. json파일을 정적파일로 변환 (json파일 위치까지 모두 작성)
+npx @redocly/cli build-docs C:\Users\admin\Downloads\api-docs.json
+
+4. 생성된 redoc-static.html 파일 열기
+
+5. ctrl + p => PDF로 저장
